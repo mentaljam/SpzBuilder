@@ -1,0 +1,24 @@
+[general]
+name=SPZ Builder
+version=0.1
+qgisMinimumVersion=2.0
+
+description=Sanitary protection zone builder
+about=This plugin builds a sanitary protection zone based on the wind rose and the normative value.
+category=Vector
+tags=vector, spb, sanitary protection zone, сзз, санитарно-защитная зона
+icon=SpzBuilder.png
+
+author=Petr Tsymbarovich
+email=petr@tsymbarovich.ru
+
+homepagehttps://github.com/mentaljam/SpzBuilder
+tracker=https://github.com/mentaljam/SpzBuilder/issues
+repository=https://github.com/mentaljam/SpzBuilder
+
+experimental=True
+deprecated=False
+
+changelog=    
+  Version 0.1 (2017-04-12)
+    - Initial version
