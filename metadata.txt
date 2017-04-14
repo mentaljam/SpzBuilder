@@ -20,7 +20,9 @@ experimental=True
 deprecated=False
 
 changelog=
-  Version 0.1 (2017-04-12)
-    - Initial version
   Version 0.1.1 (2017-04-14)
     - Add Russian description to the metadata.txt
+    - Add Russian description to the README.md
+    - Add LICENSE file
+  Version 0.1 (2017-04-12)
+    - Initial version
