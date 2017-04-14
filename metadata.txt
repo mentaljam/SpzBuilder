@@ -1,6 +1,6 @@
 [general]
 name=SPZ Builder
-version=0.1
+version=0.1.1
 qgisMinimumVersion=2.0
 
 description=Sanitary protection zone builder<br />Построение санитарно-защитных зон
@@ -19,6 +19,8 @@ repository=https://github.com/mentaljam/SpzBuilder
 experimental=True
 deprecated=False
 
-changelog=    
+changelog=
   Version 0.1 (2017-04-12)
     - Initial version
+  Version 0.1.1 (2017-04-14)
+    - Add Russian description to the metadata.txt
