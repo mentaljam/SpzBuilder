@@ -3,11 +3,14 @@
 # Recursive file search function
 rwildcard=$(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2) $(filter $(subst *,%,$2),$d))
 
-# pyuic4 command
+# pyuic5 command
 ifeq ($(OS),Windows_NT)
-    pyuic4 = $(addprefix "$(OSGEO4W_ROOT)",/bin/python.exe /apps/Python27/lib/site-packages/PyQt4/uic/pyuic.py)
+    python3 = $(addprefix "$(OSGEO4W_ROOT)",/bin/python3)
+    pyuic5 = cmd //c $(python3) -m PyQt5.uic.pyuic
+    pylupdate5 = cmd //c $(python3) -m PyQt5.pylupdate_main
 else
-    pyuic4 = pyuic4
+    pyuic5 = pyuic5
+    pylupdate5 = pylupdate5
 endif
 
 
@@ -65,7 +68,7 @@ help:
 
 $(UIC_FILES): ui/ui_%.py : ui/%.ui
 	@echo "uic: $@"
-	@$(pyuic4) $< -o $@
+	@$(pyuic5) $< -o $@
 
 ui: $(UIC_FILES)
 
@@ -77,14 +80,14 @@ qm: $(QM_FILES)
 
 $(TS_FILES):
 	@echo "ts:  $@"
-	@pylupdate4 $(TO_LOCALIZE) -ts $@
+	@$(pylupdate5) $(TO_LOCALIZE) -ts $@
 
 update_ts:
 	@echo
 	@echo "------------------------------"
 	@echo "    Updating translations"
 	@echo "------------------------------"
-	@$(foreach var,$(LOCALES),echo $(var); pylupdate4 $(TO_LOCALIZE) -ts $(TS_FILES);)
+	@$(foreach var,$(LOCALES),echo $(var); $(pylupdate5) $(TO_LOCALIZE) -ts $(TS_FILES);)
 	@echo done!
 
 update_ts_clean:
@@ -92,7 +95,7 @@ update_ts_clean:
 	@echo "------------------------------"
 	@echo "Removing obsolete translations"
 	@echo "------------------------------"
-	@$(foreach var,$(LOCALES),echo $(var); pylupdate4 $(TO_LOCALIZE) -ts $(TS_FILES) -noobsolete;)
+	@$(foreach var,$(LOCALES),echo $(var); $(pylupdate5) $(TO_LOCALIZE) -ts $(TS_FILES) -noobsolete;)
 	@echo done!
 
 package: $(INSTALL_FILES)

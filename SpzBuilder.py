@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
-from qgis.core import \
-    QgsWKBTypes, \
-    QgsCoordinateReferenceSystem, \
-    QgsCoordinateTransform, \
-    QgsVectorLayer, \
-    QgsPoint, \
-    QgsGeometry, \
-    QgsFeature, \
-    QgsMapLayerRegistry
+from qgis.core import (
+    QgsWkbTypes,
+    QgsCoordinateReferenceSystem,
+    QgsCoordinateTransform,
+    QgsVectorLayer,
+    QgsPoint,
+    QgsGeometry,
+    QgsFeature,
+    QgsProject)
 import math
-from PyQt4.QtCore import QCoreApplication
+from PyQt5.QtCore import QCoreApplication
 
 
 ORTHODEF = '+proj=ortho +lat_0={} +lon_0={} +x_0=0 +y_0=0 +datum=WGS84 +units=m +no_defs'
@@ -65,9 +65,9 @@ class SpzBuilder:
     def build(self):
         geomtype = self.srclayer.geometryType()
         topoint = None
-        if geomtype == QgsWKBTypes.PointGeometry:
+        if geomtype == QgsWkbTypes.PointGeometry:
             topoint = self.gemAsPoint
-        elif geomtype == QgsWKBTypes.PolygonGeometry:
+        elif geomtype == QgsWkbTypes.PolygonGeometry:
             topoint = self.polygonCentroid
         geomtype = None
         features = self.srclayer.getFeatures()
@@ -97,4 +97,4 @@ class SpzBuilder:
             spzdata.addFeatures([spzfeature])
         spzlayer.commitChanges()
         spzlayer.updateExtents()
-        QgsMapLayerRegistry.instance().addMapLayer(spzlayer)
+        QgsProject.instance().addMapLayer(spzlayer)

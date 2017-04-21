@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
 import os, qgis
-from PyQt4 import QtGui
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 from .ui_SpzBuilderDialog import Ui_SpzBuilderDialog
 from SpzBuilder.SpzBuilder import SpzBuilder
-from qgis.gui import QgsMapLayerProxyModel
+from qgis.core import QgsMapLayerProxyModel
 
 
-class SpzBuilderDialog(QtGui.QDialog, Ui_SpzBuilderDialog):
+class SpzBuilderDialog(QDialog, Ui_SpzBuilderDialog):
     def __init__(self, parent=None):
         super(SpzBuilderDialog, self).__init__(parent)
         self.setupUi(self)
         self.srcLayerComboBox.setFilters(QgsMapLayerProxyModel.PointLayer | QgsMapLayerProxyModel.PolygonLayer)
-        self.windRoseLabel.setPixmap(QtGui.QPixmap(
-            os.path.dirname(__file__) + '/../icons/windrose.png'))
+        self.windRoseLabel.setPixmap(QPixmap(os.path.dirname(__file__) + '/../icons/windrose.png'))
         qgis.core.QgsApplication.instance().focusChanged.connect(self.onFocusChanged)
         self.accepted.connect(self.onAccepted)
         self.srcLayerComboBox.currentIndexChanged.connect(self.setOkEnabled)
@@ -46,7 +46,7 @@ class SpzBuilderDialog(QtGui.QDialog, Ui_SpzBuilderDialog):
         builder.build()
 
     def setOkEnabled(self):
-        okButton = self.buttonBox.button(QtGui.QDialogButtonBox.Ok)
+        okButton = self.buttonBox.button(QDialogButtonBox.Ok)
         okButton.setEnabled(self.srcLayerComboBox.currentIndex() != -1)
 
     def closeEvent(self, evnt):
