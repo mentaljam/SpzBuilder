@@ -1,6 +1,6 @@
 [general]
 name=SPZ Builder
-version=0.1.1
+version=0.1.2
 qgisMinimumVersion=2.0
 qgisMaximumVersion=2.98
 
@@ -13,7 +13,7 @@ icon=SpzBuilder.png
 author=Petr Tsymbarovich
 email=petr@tsymbarovich.ru
 
-homepagehttps://github.com/mentaljam/SpzBuilder
+homepage=https://github.com/mentaljam/SpzBuilder
 tracker=https://github.com/mentaljam/SpzBuilder/issues
 repository=https://github.com/mentaljam/SpzBuilder
 
@@ -21,9 +21,12 @@ experimental=True
 deprecated=False
 
 changelog=
+  Version 0.1.2 (2017-04-29)
+    - Fix typo in metadata.txt
   Version 0.1.1 (2017-04-14)
     - Add Russian description to the metadata.txt
     - Add Russian description to the README.md
     - Add LICENSE file
   Version 0.1 (2017-04-12)
     - Initial version
+
