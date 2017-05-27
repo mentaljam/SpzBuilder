@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[spzbuilder.spzbuilder_ts]
+source_file = i18n/SpzBuilder_en.ts
+source_lang = en
+type = QT
+file_filter = i18n/SpzBuilder_<lang>.ts
