@@ -1,12 +1,12 @@
 [general]
 name=SPZ Builder
-version=1.0.1
+version=1.0.2
 qgisMinimumVersion=2.99
 
 description=Sanitary protection zone builder<br />Построение санитарно-защитных зон
 about=<p>This plugin builds a sanitary protection zone based on the wind rose and the normative value.</p><p>Плагин предназначен для расчета и построения санитарно-защитных зон с учетом розы ветров.</p>
 category=Vector
-tags=vector, spb, sanitary protection zone, сзз, санитарно-защитная зона
+tags=vector, spz, sanitary protection zone, сзз, санитарно-защитная зона
 icon=SpzBuilder.png
 
 author=Petr Tsymbarovich
@@ -20,6 +20,8 @@ experimental=True
 deprecated=False
 
 changelog=
+  Version 1.0.2 (2017-05-27)
+    - Fix tags in metadata.txt
   Version 1.0.1 (2017-04-29)
     - Fix typo in metadata.txt
   Version 1.0.0 (2017-04-21)
