@@ -1,7 +1,7 @@
 [general]
 name=SPZ Builder
-version=1.1.1
-qgisMinimumVersion=2.99
+version=1.2.0
+qgisMinimumVersion=3.0
 qgisMaximumVersion=3.99
 
 description=Sanitary protection zone builder<br />Построение санитарно-защитных зон
@@ -21,10 +21,11 @@ experimental=False
 deprecated=False
 
 changelog=
-  Version 1.1.1 (2017-06-16)
-    - Add qgisMaximumVersion to metadata.txt
+  Version 1.2.0 (2018-02-19)
+    - Use the last QGIS3 API
   Version 1.1.0 (2017-06-14)
     - Stable release
+    - Add qgisMaximumVersion to metadata.txt
   Version 1.0.2 (2017-05-27)
     - Fix tags in metadata.txt
   Version 1.0.1 (2017-04-29)

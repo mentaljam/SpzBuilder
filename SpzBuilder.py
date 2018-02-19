@@ -5,7 +5,7 @@ from qgis.core import (
     QgsCoordinateReferenceSystem,
     QgsCoordinateTransform,
     QgsVectorLayer,
-    QgsPoint,
+    QgsPointXY,
     QgsGeometry,
     QgsFeature,
     QgsProject)
@@ -47,18 +47,6 @@ class SpzBuilder:
     def polygonCentroid(g):
         return g.centroid().asPoint()
 
-    @staticmethod
-    def trToWgs(crs):
-        wgscrs = QgsCoordinateReferenceSystem()
-        wgscrs.createFromString('EPSG:4326')
-        return QgsCoordinateTransform(crs, wgscrs)
-
-    @staticmethod
-    def trToPointCrs(point, crs):
-        pointcrs = QgsCoordinateReferenceSystem()
-        pointcrs.createFromProj4(ORTHODEF.format(point.y(), point.x()))
-        return QgsCoordinateTransform(pointcrs, crs)
-
     def dirspz(self, p):
         return (self.nspz * p / self.po) if (p > self.po) else self.nspz
 
@@ -70,31 +58,36 @@ class SpzBuilder:
         elif geomtype == QgsWkbTypes.PolygonGeometry:
             topoint = self.polygonCentroid
         geomtype = None
+        project = QgsProject.instance()
         features = self.srclayer.getFeatures()
         layercrs = self.srclayer.crs()
-        wgstr = self.trToWgs(layercrs)
+        QgsCoordinateTransform.invalidateCache()
+        wgstr = QgsCoordinateTransform(layercrs, QgsCoordinateReferenceSystem('EPSG:4326'), project)
         rhumbs = Rhumbs(len(self.probs))
-        spzlayer = QgsVectorLayer('Polygon?crs=' + layercrs.toWkt(), self.tr('SPZ temporary layer'), 'memory')
+        spzlayer = QgsVectorLayer('Polygon?crs=' + layercrs.toWkt(),
+                                  self.tr('SPZ temporary layer'), 'memory')
         spzdata = spzlayer.dataProvider()
         spzlayer.startEditing()
         for f in features:
             geom = f.geometry()
             if geom.isEmpty():
                 continue
+            geom.transform(wgstr)
+            zero_point = topoint(geom)
+            pointcrs = QgsCoordinateReferenceSystem.fromProj4(ORTHODEF.format(zero_point.y(), zero_point.x()))
+            QgsCoordinateTransform.invalidateCache()
+            pointtr = QgsCoordinateTransform(pointcrs, layercrs, project)
             spzpoints = []
             for i in range(rhumbs.count):
                 p = self.probs[i]
                 l = self.dirspz(p)
                 lat = l * rhumbs.cos[i]
                 lon = l * rhumbs.sin[i]
-                spzpoints.append(QgsPoint(lon, lat))
-            spzgeom = QgsGeometry.fromPolygon([spzpoints])
-            geom.transform(wgstr)
-            pointtr = self.trToPointCrs(topoint(geom), layercrs)
-            spzgeom.transform(pointtr)
+                spzpoints.append(pointtr.transform(lon, lat))
+            spzgeom = QgsGeometry.fromPolygonXY([spzpoints])
             spzfeature = QgsFeature()
             spzfeature.setGeometry(spzgeom)
             spzdata.addFeatures([spzfeature])
         spzlayer.commitChanges()
         spzlayer.updateExtents()
-        QgsProject.instance().addMapLayer(spzlayer)
+        project.addMapLayer(spzlayer)
